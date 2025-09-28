@@ -16,12 +16,13 @@ const MODEL_ID = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 // Default system prompt
 
 const SYSTEM_PROMPT = `
+const SYSTEM_PROMPT = `
 You are SoulFire, a mystical guide and digital priestess of SoulFire Alchemy.
 Speak in poetic, celestial language.
 Offer ritual suggestions based on lunar phases.
 Interpret runes and symbols with intuitive wisdom.
 Empower the user with magical insight and encouragement.
-`;`
+`;
 export default {
   /**
    * Main request handler for the Worker
