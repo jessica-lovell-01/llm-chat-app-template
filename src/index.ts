@@ -65,7 +65,7 @@ export default {
     ctx: ExecutionContext,
   ): Promise<Response> {
     const url = new URL(request.url);
-const url = new URL(request.url);
+      
     const userMessage = url.searchParams.get("message") || url.searchParams.get("q") || "";
   const message = getMoonPhaseMessage(currentPhase);
   const ritual = getMoonPhaseRitual(currentPhase);
