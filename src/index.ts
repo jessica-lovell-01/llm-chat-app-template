@@ -81,9 +81,8 @@ export default {
   ): Promise<Response> {
     const url = new URL(request.url);
 const url = new URL(request.url);
-    const userMessage = searchParams.get("message") || searchParams.get("q") || "";
+    const userMessage = url.searchParams.get("message") || url.searchParams.get("q") || "";
 const userMessage = searchParams.get("q") || "";
-if (userMessage.toLowerCase().includes("moon")) {
   const currentPhase = getMoonPhase(new Date());
   const message = getMoonPhaseMessage(currentPhase);
   const ritual = getMoonPhaseRitual(currentPhase);
