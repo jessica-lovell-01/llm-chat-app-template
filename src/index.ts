@@ -63,7 +63,31 @@ export default {
     if (userMessage.toLowerCase().includes("moon ritual")) {
       return new Response(`🌙 Tonight is the ${currentPhase} moon. Ritual: ${ritual}`);
     }
+async function handleChatRequest(request: Request, env: Env): Promise<Response> {
+  try {
+    const { messages = [] } = await request.json();
 
+    if (!messages.some((msg: ChatMessage) => msg.role === "system")) {
+      messages.unshift({ role: "system", content: SYSTEM_PROMPT });
+    }
+
+    const response = await env.AI.run(MODEL_ID, {
+      messages,
+      max_tokens: 1024,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Error processing chat request:", error);
+    return new Response(
+      JSON.stringify({ error: "Failed to process request" }),
+      {
+        status: 500,
+        headers: { "content-type": "application/json" },
+      }
+    );
+  }
+}
     if (userMessage.toLowerCase().includes("moon")) {
       return new Response(`🌙 Tonight is the ${currentPhase} moon. ${ritual}`);
     }
