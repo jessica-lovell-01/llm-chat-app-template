@@ -82,7 +82,7 @@ export default {
     const url = new URL(request.url);
 const url = new URL(request.url);
     const userMessage = url.searchParams.get("message") || url.searchParams.get("q") || "";
-const userMessage = searchParams.get("q") || "";
+
   const currentPhase = getMoonPhase(new Date());
   const message = getMoonPhaseMessage(currentPhase);
   const ritual = getMoonPhaseRitual(currentPhase);
