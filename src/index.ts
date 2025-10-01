@@ -32,21 +32,6 @@ function getMoonPhase(date: Date): string {
   if (phase < 0.97) return 'Waning Crescent';
   return 'New Moon';
 }
-function getMoonPhase(date: Date): string {
-  const lp = 2551443;
-  const now = date.getTime() / 1000;
-  const newMoon = new Date('2000-01-06T18:14:00Z').getTime() / 1000;
-  const phase = ((now - newMoon) % lp) / lp;
-
-  if (phase < 0.03 || phase > 0.97) return "new";
-  if (phase < 0.22) return "waxing crescent";
-  if (phase < 0.28) return "first quarter";
-  if (phase < 0.47) return "waxing gibbous";
-  if (phase < 0.53) return "full";
-  if (phase < 0.72) return "waning gibbous";
-  if (phase < 0.78) return "last quarter";
-  if (phase < 0.97) return "waning crescent";
-  return "new";
 }
 function getRitualSuggestion(phase: string): string {
   switch (phase) {
@@ -82,8 +67,6 @@ export default {
     const url = new URL(request.url);
 const url = new URL(request.url);
     const userMessage = url.searchParams.get("message") || url.searchParams.get("q") || "";
-
-  const currentPhase = getMoonPhase(new Date());
   const message = getMoonPhaseMessage(currentPhase);
   const ritual = getMoonPhaseRitual(currentPhase);
   return new Response(`🌙 Tonight is the ${currentPhase} moon. ${message} ${ritual}`);
@@ -93,10 +76,6 @@ if (userMessage.toLowerCase().includes("moon")) {
   const ritual = getInitialSuggestion(phase);
   return new Response(`🌙 Tonight is the ${phase} moon. ${ritual}`);
 }
-    if (userMessage.toLowerCase().includes("moon")) {
-      const phase = getMoonPhase(new Date());
-      const ritual = getInitialSuggestion(phase);
-      return new Response(`🌙 Tonight is the ${phase}. ${ritual}`);
     }
     // Handle static assets (frontend)
     if (url.pathname === "/" || !url.pathname.startsWith("/api/")) {
