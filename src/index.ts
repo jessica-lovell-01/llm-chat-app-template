@@ -61,6 +61,46 @@ export default {
    */
   async fetch(
     request: Request,
+    ctx: ExecutionContext
+  ): Promise<Response> {
+    const url = new URL(request.url);
+    const userMessage = url.searchParams.get("message") || url.searchParams.get("q") || "";
+    const currentPhase = getMoonPhase(new Date());
+    const message = getMoonPhaseMessage(currentPhase);
+    const ritual = getMoonPhaseRitual(currentPhase);
+
+    // Keyword-based responses
+    if (userMessage.toLowerCase().includes("moon ritual")) {
+      return new Response(`🌙 Tonight is the ${currentPhase} moon. Ritual: ${ritual}`);
+    }
+
+    if (userMessage.toLowerCase().includes("moon")) {
+      return new Response(`🌙 Tonight is the ${currentPhase} moon. ${message}`);
+    }
+
+    if (userMessage.toLowerCase().includes("suggestion")) {
+      const suggestion = getInitialSuggestion(currentPhase);
+      return new Response(`🌙 Tonight is the ${currentPhase} moon. Suggested ritual: ${suggestion}`);
+    }
+
+    // Handle static assets
+    if (url.pathname === "/" || !url.pathname.startsWith("/api/")) {
+      return env.ASSETS.fetch(request);
+    }
+
+    // API Routes
+    if (url.pathname === "/api/chat") {
+      if (request.method === "POST") {
+        return handleChatRequest(request, env);
+      }
+      return new Response("Method not allowed", { status: 405 });
+    }
+
+    // Fallback 404
+    return new Response("Not found", { status: 404 });
+  },
+} satisfies ExportedHandler<Env>; 
+    request: Request,
     const currentPhase = getMoonPhase(new Date());
     ctx: ExecutionContext,
   ): Promise<Response> {
