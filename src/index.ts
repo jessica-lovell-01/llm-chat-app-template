@@ -77,11 +77,12 @@ export default {
     }
 
     if (url.pathname === "/api/chat") {
-      if (request.method === "POST") {
-        return new Response("Chat handling not yet implemented", { status: 501 });
-      }
-      return new Response("Method not allowed", { status: 405 });
+  if (request.method === "POST") {
+    return new Response("🛠️ Chat handler not yet implemented", { status: 501 });
+  }
+  return new Response("Method not allowed", { status: 405 });
     }
+
 
     return new Response("Not found", { status: 404 });
   },
